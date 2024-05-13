@@ -12,7 +12,9 @@ class Tree {
 }
 
     buildTree(array) {
-        if (array.length === 0) return null;
+        if (array.length === 0){
+            return null
+        }
         const midIndex = Math.floor(array.length / 2);
         const root = new Node(array[midIndex]);
         root.left = this.buildTree(array.slice(0, midIndex));
@@ -23,22 +25,24 @@ class Tree {
     insert(value) {
         let currentNode = this.root;
         while (currentNode) {
-        if (value < currentNode.data) {
-            if (!currentNode.left) {
-            currentNode.left = new Node(value);
-            break;
+            if (value < currentNode.data) {
+                if (!currentNode.left) {
+                currentNode.left = new Node(value);
+                break;
+                }
+                currentNode = currentNode.left;
+            } 
+            else if (value > currentNode.data) {
+                if (!currentNode.right) {
+                currentNode.right = new Node(value);
+                break;
+                }
+                currentNode = currentNode.right;
+            } 
+            else {
+                // Handle duplicate values (optional: throw error or ignore)
+                break;
             }
-            currentNode = currentNode.left;
-        } else if (value > currentNode.data) {
-            if (!currentNode.right) {
-            currentNode.right = new Node(value);
-            break;
-            }
-            currentNode = currentNode.right;
-        } else {
-            // Handle duplicate values (optional: throw error or ignore)
-            break;
-        }
         }
     }
 
@@ -159,11 +163,11 @@ class Tree {
     preOrder(callback) {
         const traverse = (node) => {
             if (node) {
-            if (callback) {
-                callback(node.data);
-            }
-            traverse(node.left);
-            traverse(node.right);
+                if (callback) {
+                    callback(node.data);
+                }
+                traverse(node.left);
+                traverse(node.right);
             }
         };
         traverse(this.root);
@@ -173,11 +177,11 @@ class Tree {
     postOrder(callback) {
         const traverse = (node) => {
             if (node) {
-            traverse(node.left);
-            traverse(node.right);
-            if (callback) {
-                callback(node.data);
-            }
+                traverse(node.left);
+                traverse(node.right);
+                if (callback) {
+                    callback(node.data);
+                }
             }
         };
         traverse(this.root);
@@ -185,10 +189,10 @@ class Tree {
     }
     
     height(node = this.root) {
-    if (!node) return -1; // Height of empty tree is -1
-    const leftHeight = this.height(node.left);
-    const rightHeight = this.height(node.right);
-    return Math.max(leftHeight, rightHeight) + 1;
+        if (!node) return -1; // Height of empty tree is -1
+        const leftHeight = this.height(node.left);
+        const rightHeight = this.height(node.right);
+        return Math.max(leftHeight, rightHeight) + 1;
     }
     
     depth(node = this.root) {
@@ -199,13 +203,14 @@ class Tree {
         let depth = 0;
         while (current) {
             if (current === parent.left) {
-            depth++;
-            parent = current;
-            current = current.left;
-            } else if (current === parent.right) {
-            depth++;
-            parent = current;
-            current = current.right;
+                depth++;
+                parent = current;
+                current = current.left;
+            } 
+            else if (current === parent.right) {
+                depth++;
+                parent = current;
+                current = current.right;
             }
         }
         return depth;
@@ -237,31 +242,30 @@ function getRandomNumbers(count) {
     return numbers;
 }
   
-  const tree = new Tree(getRandomNumbers(20));
-  
-  console.log("Is balanced:", tree.isBalanced());
-  
-  console.log("Level order:", tree.levelOrder(value => console.log(value)));
-  console.log("Pre-order:", tree.preOrder(value => console.log(value)));
-  console.log("Post-order:", tree.postOrder(value => console.log(value)));
-  console.log("In-order:", tree.inOrder(value => console.log(value)));
-  
-  // Unbalance the tree
-  tree.insert(150);
-  tree.insert(200);
-  tree.insert(250);
-  
-  console.log("\nAfter adding unbalanced elements:");
-  console.log("Is balanced:", tree.isBalanced());
-  
-  // Rebalance the tree
-  tree.rebalance();
-  
-  console.log("\nAfter rebalancing:");
-  console.log("Is balanced:", tree.isBalanced());
-  
-  console.log("Level order:", tree.levelOrder(value => console.log(value)));
-  console.log("Pre-order:", tree.preOrder(value => console.log(value)));
-  console.log("Post-order:", tree.postOrder(value => console.log(value)));
-  console.log("In-order:", tree.inOrder(value => console.log(value)));
-  
+const tree = new Tree(getRandomNumbers(20));
+
+console.log("Is balanced:", tree.isBalanced());
+
+console.log("Level order:", tree.levelOrder(value => console.log(value)));
+console.log("Pre-order:", tree.preOrder(value => console.log(value)));
+console.log("Post-order:", tree.postOrder(value => console.log(value)));
+console.log("In-order:", tree.inOrder(value => console.log(value)));
+
+// Unbalance the tree
+tree.insert(150);
+tree.insert(200);
+tree.insert(250);
+
+console.log("\nAfter adding unbalanced elements:");
+console.log("Is balanced:", tree.isBalanced());
+
+// Rebalance the tree
+tree.rebalance();
+
+console.log("\nAfter rebalancing:");
+console.log("Is balanced:", tree.isBalanced());
+
+console.log("Level order:", tree.levelOrder(value => console.log(value)));
+console.log("Pre-order:", tree.preOrder(value => console.log(value)));
+console.log("Post-order:", tree.postOrder(value => console.log(value)));
+console.log("In-order:", tree.inOrder(value => console.log(value)));
